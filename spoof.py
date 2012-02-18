@@ -4,6 +4,8 @@ import random
 import textwrap
 
 class spoof:
+"""Spoof the game"""
+
 	_list_Players = []
 	def __init__(self):
 		self._titleCard()

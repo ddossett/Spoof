@@ -2,10 +2,11 @@ import getpass
 import sys
 import random
 import textwrap
+from scipy.misc import comb
+import math
 
 class spoof:
-"""Spoof the game"""
-
+	"""Spoof the game"""
 	_list_Players = []
 	def __init__(self):
 		self._titleCard()
@@ -127,4 +128,69 @@ class spoof:
 		
 		if not winner: print '\nNoone won this round, try again.'
 
-spoof()
+def sumFairDiceProb(n,k):
+	i=0
+	probs=[]
+	prob = 0.0
+	if (k>=n and k<=(n*6)):
+		prob = math.pow((1.0/6.0),n)
+#	print 'prob =',prob
+	oldasym = -1.0
+	print 'Floored max =',math.floor((k-n)/6)
+	while i<=math.floor((k-n)/6):
+		asym = math.pow(oldasym, i)
+		print 'i=',i
+		print 'asmy =',asym
+		print 'comb1 =',comb(n,i,exact=True)
+#		print (k-(6*i)-1)
+#		print n-1
+		print 'comb2 =',comb((k-(6*i)-1),(n-1),exact=True)
+		probs.append(prob*asym*comb(n,i,exact=True)*comb((k-(6*i)-1),(n-1),exact=True))
+		i+=1
+	print probs
+	totProb = sum(probs)
+	print totProb
+	return totProb
+
+def sumFairCoinProb(n,k):
+	i=0
+	k=k+n
+	probs=[]
+	prob = 0.0
+	if (k>=n and k<=(n*4)):
+		prob = math.pow((1.0/4.0),n)
+#	print 'prob =',prob
+	oldasym = -1.0
+	print 'Floored max =',math.floor((k-n)/4)
+	while i<=math.floor((k-n)/4):
+		asym = math.pow(oldasym, i)
+		print 'i=',i
+		print 'asmy =',asym
+		print 'comb1 =',comb(n,i,exact=True)
+#		print (k-(6*i)-1)
+#		print n-1
+		print 'comb2 =',comb((k-(4*i)-1),(n-1),exact=True)
+		probs.append(prob*asym*comb(n,i,exact=True)*comb((k-(4*i)-1),(n-1),exact=True))
+		i+=1
+	print probs
+	totProb = sum(probs)
+	print totProb
+	return totProb
+
+
+
+ll = []
+ll.append(sumFairCoinProb(2,0))
+ll.append(sumFairCoinProb(2,1))
+ll.append(sumFairCoinProb(2,2))
+ll.append(sumFairCoinProb(2,3))
+ll.append(sumFairCoinProb(2,4))
+ll.append(sumFairCoinProb(2,5))
+ll.append(sumFairCoinProb(2,6))
+ll.append(sumFairCoinProb(2,7))
+print ll
+print sum(ll)
+
+#print comb(6,1,exact = True)
+
+#spoof()

@@ -7,14 +7,23 @@ import math
 
 class spoof:
 	"""Spoof the game"""
-	_list_Players = []
 	def __init__(self):
+		self._str_PlayerNameRoot = 'Player'
+		self._numPlayers = 0
+		self._winnerFlag = False
+		self._dict_Players = {}
+		self._array_sumProbs = []
+		self._dict_guesses = {}
 		self._titleCard()
 		str_Description = 'This is a game for as many players as you want (>1). You should each think of a number of coins between 0 and 3 and enter it (covertly) when prompted. Then when asked, enter in your guess for the total number of coins. Easy!'
 		print textwrap.fill(str_Description,width=60)
-		self._runRound()
+		self._setPlayers()
+		while (self._winnerFlag==False):
+			self._runRound()
+		print self._dict_Players""
 
 	def _titleCard(self):
+		"""Prints out the titlecard for the game"""
 		str_Welcome = 'Welcome to Spoof'
 		print
 		print ('{:/^20}'.format('')).center(60)
@@ -22,7 +31,23 @@ class spoof:
 		print ('{:/^20}'.format('')).center(60)
 		print
 
+	def _setPlayers(self):
+		numPlayers = 0
+		while numPlayers==0:
+			tmpNumPlayers = getpass.getpass(prompt='\nHow many players do you want?')
+			if self._checkInt(tmpNumPlayers):
+				numPlayers = int(tmpNumPlayers)
+			else:
+				print '\nThat\'s not a valid number. Please try again.'
+				continue
+		for int_Player in range(numPlayers):
+			playerName = self._str_PlayernameRoot+str((int_Player+1))
+			playerType = getpass.getpass(prompt='\n'+playerName+' is Human (0) or Computer (1)?')
+			self._dict_Players[playerName] = playerType
+		self._numPlayers = len(_dict_Players)
+	
 	def _checkInt(self,i):
+		"""Checks that the passed variable can have the int() function called on it sucessfully"""
 		try:
 			int(i)
 			return True
@@ -31,6 +56,7 @@ class spoof:
 			return False
 
 	def _checkValidGuess(self,guess,numPlayers):
+		"""Checks that the passed guess is valid given the restrictions (must be between 0 and (Number of players)*3)"""
 		maxCoins = numPlayers*3
 		if guess<=maxCoins:
 			return True
@@ -38,6 +64,7 @@ class spoof:
 			return False
 
 	def _getHumanThrow(self,i,list_Players):
+		"""Prompt for human input"""
 		str_NumPrompt = 'enter your number of coins: '
 		tmpNumCoins = getpass.getpass(prompt='\n'+list_Players[i]+' '+str_NumPrompt)
 		return tmpNumCoins
@@ -74,25 +101,12 @@ class spoof:
 		return guess
 
 	def _runRound(self):
-		numPlayers = 0
-		while numPlayers==0:
-			tmpNumPlayers = getpass.getpass(prompt='\nHow many players do you want?')
-			if self._checkInt(tmpNumPlayers):
-				numPlayers = int(tmpNumPlayers)
-			else:
-				print '\nThat\'s not a valid number. Please try again.'
-				continue
-		
-		list_Players = []
-		str_PlayerNameRoot = 'Player'
-		for int_Player in range(numPlayers):
-			list_Players.append(str_PlayerNameRoot+str((int_Player+1)))
-		
-		numCoins = [0]*len(list_Players)
+	
+		numCoins = [0]*len(self._list_Players)
 		
 		int_i = 0
-		while int_i<len(list_Players):
-			tmpNumCoins = self._getThrow(int_i,list_Players)
+		while int_i<len(self._list_Players):
+			tmpNumCoins = self._getThrow(int_i,self._list_Players)
 			if self._checkInt(tmpNumCoins):
 				numCoins[int_i] = int(tmpNumCoins)
 				int_i+=1
@@ -102,12 +116,12 @@ class spoof:
 		for n in numCoins:
 			int_Sum+=n
 		
-		guesses = [0]*len(list_Players)
+		guesses = [0]*len(self._list_Players)
 		int_i = 0
 		while int_i<len(guesses):
-			tmpGuess = self._getGuess(int_i,list_Players)
+			tmpGuess = self._getGuess(int_i,self._list_Players)
 			if self._checkInt(tmpGuess):
-				print '\n'+list_Players[int_i]+' guessed',tmpGuess,"coins"
+				print '\n'+self._list_Players[int_i]+' guessed',tmpGuess,"coins"
 				if self._checkValidGuess(int(tmpGuess),len(guesses)):
 					guesses[int_i] = int(tmpGuess)
 					int_i+=1
@@ -122,7 +136,7 @@ class spoof:
 		winner = False
 		for guess in guesses:
 			if guess==int_Sum:
-				print '\n'+list_Players[int_j],str_CongratulateRound
+				print '\n'+self._list_Players[int_j],str_CongratulateRound
 				winner=True
 			int_j+=1
 		
@@ -151,6 +165,8 @@ def sumFairDiceProb(n,k):
 	totProb = sum(probs)
 	print totProb
 	return totProb
+
+def
 
 def sumFairCoinProb(n,k):
 	i=0

@@ -7,4 +7,10 @@ class PlayerTable:
     def __init__(self,playerName,playerType=0):
         self.name = playerName
         self.playerType = PlayerTable.validPlayerTypes[playerType]
-        self.table = []
+        self.table = {}
+
+    def __str__(self):
+        return self.name
+    
+    def __repr__(self):
+        return self.name

@@ -1,6 +1,7 @@
 from BaseBrain import BaseBrain
 from PlayerTable import PlayerTable
 from Checks import *
+from getpass import getpass
 
 class Human(BaseBrain):
     """Interface for Human player, derived from BaseBrain class. 'Human' provides the prompting/error checking interface for a human player's throws and guesses."""
@@ -8,13 +9,13 @@ class Human(BaseBrain):
 
     def Throw(self):
         """Prompt for human input"""
-        promptString = '\nenter your number of coins: '
+        promptString = 'enter your number of coins: '
         thrown = False
         while thrown==False:
-            tmpNumCoins = getpass.getpass(prompt='\n'+self.pt.name+' '+promptString)
-            if Checks.checkInt(tmpNumCoins):
+            tmpNumCoins = getpass(prompt='\n'+self.pt.name+' '+promptString)
+            if checkInt(tmpNumCoins):
                 tmpNumCoins = int(tmpNumCoins)
-                if tmpNumCoins<self.maxCoins and tmpNumCoins>self.minCoins:
+                if tmpNumCoins<=self.maxCoins and tmpNumCoins>=self.minCoins:
                     self.numCoins = tmpNumCoins
                     thrown = True
                 else:
@@ -26,14 +27,14 @@ class Human(BaseBrain):
         return self.numCoins
 
     def Guess(self):
-        promptString = '\nenter your guess for the total: '
+        promptString = 'enter your guess for the total: '
         guessed = False
         while guessed==False:
-            tmpGuess = getpass.getpass(prompt='\n'+self.pt.name+' '+promptString)
-            if Checks.checkInt(tmpGuess):
-                tmpGuess = int(tmpGuess)
-                if tmpGuess>self.numCoins and tmpGuess<(len(self.playerTables)-self.numCoins):
-                    self.guessCoins = tmpGuess
+            guess = raw_input('\n'+self.pt.name+' '+promptString)
+            if checkInt(guess):
+                guess = int(guess)
+                if guess>=self.numCoins and guess<=((len(self.playerTables) * self.maxCoins) + self.numCoins - self.maxCoins):
+                    self.guessCoins = guess
                     guessed = True
                 else:
                     print '\nThat wasn\'t in the range of valid guesses. Please try again.'

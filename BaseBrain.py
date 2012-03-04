@@ -18,6 +18,12 @@ class BaseBrain:
         return self.numCoins
     
     def Guess(self):
-        self.maxGuess=len(self.playerTables * self.maxCoins) - self.numCoins
+        self.maxGuess=len(self.playerTables * self.maxCoins) + self.numCoins - self.maxCoins
         self.guessCoins = random.randint(self.numCoins,self.maxGuess)
         return self.guessCoins
+
+    def __str__(self):
+        return self.__class__.__name__+':'+self.pt.name
+    
+    def __repr__(self):
+        return self.__class__.__name__+':'+self.pt.name

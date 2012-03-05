@@ -8,18 +8,18 @@ class Hactar(BaseBrain):
     pass
 
     def CoinSumProb(self,k):
-        i = self.minCoins
+        i = 0
         prob = 0.0
         n = len(self.playerTables)
-        k = k + n
+        k = k + (n*(self.minCoins-1))
         probs = []
         numStates = self.maxCoins - self.minCoins + 1.0
         if (k>=n and k<=(n*numStates)):
             prob = math.pow((1.0/numStates),n)
         oldasym = -1.0
-        while i<=math.floor((k-n)/numStates):
+        while i<=(math.floor((k-n)/numStates)):
             asym = math.pow(oldasym, i)
-            probs.append(prob*asym*comb(n,i,exact=True)*comb((k-(numStates*i)-1),(n-1),exact=True))
+            probs.append(prob*asym*comb(n,i,exact=True)*comb((k-(int(numStates)*i)-1),(n-1),exact=True))
             i += 1
         totProb = sum(probs)
         return totProb

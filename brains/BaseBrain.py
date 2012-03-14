@@ -1,5 +1,5 @@
 import random
-from PlayerTable import PlayerTable
+from PlayerTable import PlayerTable as PT
 
 class BaseBrain:
     """Base class for players"""

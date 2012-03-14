@@ -1,8 +1,8 @@
-from BaseBrain import BaseBrain
+from BaseBrain import BaseBrain as BB
 import math
 from scipy.misc import comb
 
-class Hactar(BaseBrain):
+class Hactar(BB):
     """Brain for Hactar computer player, derived from BaseBrain class. Hactar finds the most probable total sum assuming every player throws randomly."""
     __name__ = "Hactar"
     pass

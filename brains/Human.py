@@ -1,9 +1,9 @@
-from BaseBrain import BaseBrain
-from PlayerTable import PlayerTable
+from BaseBrain import BaseBrain as BB
+#from PlayerTable import PlayerTable as PT
 from Checks import *
 from getpass import getpass
 
-class Human(BaseBrain):
+class Human(BB):
     """Interface for Human player, derived from BaseBrain class. 'Human' provides the prompting/error checking interface for a human player's throws and guesses."""
     __name__ = "Human"
 

@@ -1,5 +1,5 @@
 import random
-from PlayerTable import PlayerTable as PT
+from Spoof.data.PlayerTable import PlayerTable as PT
 
 class BaseBrain:
     """Base class for players"""

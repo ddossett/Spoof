@@ -1,6 +1,6 @@
 from BaseBrain import BaseBrain as BB
 #from PlayerTable import PlayerTable as PT
-from Checks import *
+import Spoof.utils.Checks as Checks
 from getpass import getpass
 
 class Human(BB):
@@ -13,7 +13,7 @@ class Human(BB):
         thrown = False
         while thrown==False:
             tmpNumCoins = getpass(prompt='\n'+self.pt.name+' '+promptString)
-            if checkInt(tmpNumCoins):
+            if Checks.checkInt(tmpNumCoins):
                 tmpNumCoins = int(tmpNumCoins)
                 if tmpNumCoins<=self.maxCoins and tmpNumCoins>=self.minCoins:
                     self.numCoins = tmpNumCoins
@@ -31,7 +31,7 @@ class Human(BB):
         guessed = False
         while guessed==False:
             guess = raw_input('\n'+self.pt.name+' '+promptString)
-            if checkInt(guess):
+            if Checks.checkInt(guess):
                 guess = int(guess)
                 if guess>=self.numCoins and guess<=((len(self.playerTables) * self.maxCoins) + self.numCoins - self.maxCoins):
                     self.guessCoins = guess

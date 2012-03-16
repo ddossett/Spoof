@@ -1,13 +1,8 @@
-import sys
 from random import randint,uniform,shuffle
 import textwrap
-
-import utils.Checks as Checks
-from data.PlayerTable import PlayerTable as PT
-from brains.Hactar import Hactar
-from brains.Mycroft import Mycroft
-from brains.BaseBrain import BaseBrain
-from brains.Human import Human
+import brains
+import utils
+from data import PlayerTable as PT
 
 class Spoof:
     """Class to run the game Spoof. Uses PlayerTable() to save/get information and the BaseBrain() derived Classes to make computer players"""
@@ -41,8 +36,8 @@ class Spoof:
         numPlayers = 0
         compNameIndex = 0
         while numPlayers==0:
-            tmpNumPlayers = raw_input('\nHow many players do you want?')
-            if Checks.checkInt(tmpNumPlayers):
+            tmpNumPlayers = raw_input('\nHow many players do you want? ')
+            if utils.checkInt(tmpNumPlayers):
                 numPlayers = int(tmpNumPlayers)
             else:
                 print '\nThat\'s not a valid number. Please try again.'
@@ -51,25 +46,25 @@ class Spoof:
             playerName = 'Player'+str((player+1))
             name=False
             while name==False:
-                playerType = raw_input('\n'+playerName+' is Human(0), BaseBrain(1), Hactar(2), or Mycroft(3)? Enter 0,1,2,3:')
-                if Checks.checkInt(playerType):
+                playerType = raw_input('\n'+playerName+' is Human(0), BaseBrain(1), Hactar(2), or Mycroft(3)? Enter 0,1,2,3: ')
+                if utils.checkInt(playerType):
                     playerType = int(playerType)
                     name=True
             if playerType!=0:
                 playerName = Spoof.validComputerNames[compNameIndex % len(Spoof.validComputerNames)]
                 compNameIndex += 1
             else:
-                playerName = raw_input('\nEnter the proper name for this Human player:')
+                playerName = raw_input('\nEnter the proper name for this Human player: ')
             self.players.append( PT(playerName,playerType) )
    
     def _SetBrains(self):
         for player in self.players:
             if player.playerType=='Human':
-                self.playerBrains.append(Human(player, self.players))
+                self.playerBrains.append(brains.Human(player, self.players))
             elif player.playerType=='BaseBrain':
-                self.playerBrains.append(BaseBrain(player, self.players))
+                self.playerBrains.append(brains.BaseBrain(player, self.players))
             elif player.playerType=='Hactar':
-                self.playerBrains.append(Hactar(player, self.players))
+                self.playerBrains.append(brains.Hactar(player, self.players))
             else: pass
         return True
 

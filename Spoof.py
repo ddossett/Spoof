@@ -34,7 +34,7 @@ class Spoof:
 
     def _SetPlayers(self):
         numPlayers = 0
-        compNameIndex = 0
+        compNameIndex = randint(0,len(Spoof.validComputerNames))
         while numPlayers==0:
             tmpNumPlayers = raw_input('\nHow many players do you want? ')
             if utils.checkInt(tmpNumPlayers):
@@ -54,7 +54,7 @@ class Spoof:
                 playerName = Spoof.validComputerNames[compNameIndex % len(Spoof.validComputerNames)]
                 compNameIndex += 1
             else:
-                playerName = raw_input('\nEnter the proper name for this Human player: ')
+                playerName = raw_input('\nEnter the name for this Human player: ')
             self.players.append( PT(playerName,playerType) )
    
     def _SetBrains(self):

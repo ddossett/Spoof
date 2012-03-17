@@ -5,7 +5,6 @@ from scipy.misc import comb
 import random
 from data import PlayerTable as PT
 
-
 class BaseBrain:
     """Base class for players"""
     __name__ = "BaseBrain"
